@@ -38,6 +38,12 @@ button {
 
 button:hover { filter: brightness(1.1); }
 
+.secondary-button {
+  background: transparent;
+  color: #76d2ff;
+  border: 1px solid rgba(118, 210, 255, 0.35);
+}
+
 .app-shell {
   display: flex;
   min-height: 100vh;

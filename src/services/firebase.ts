@@ -1,8 +1,10 @@
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import type { Auth } from 'firebase/auth'
+import type { Firestore } from 'firebase/firestore'
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
@@ -11,14 +13,21 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
-let app: any
+export const hasFirebaseConfig = Object.values(firebaseConfig).every(Boolean)
+
+if (!hasFirebaseConfig) {
+  console.warn('Firebase no está configurado. La aplicación usará el modo demo local.')
+}
+
+/* Firebase clients are shared so Auth and Firestore use one app instance. */
+let app
 if (!getApps().length) {
   app = initializeApp(firebaseConfig)
 } else {
   app = getApps()[0]
 }
 
-export const auth = getAuth(app)
-export const db = getFirestore(app)
+export const auth: Auth | null = hasFirebaseConfig ? getAuth(app) : null
+export const db: Firestore | null = hasFirebaseConfig ? getFirestore(app) : null
 
 export default app

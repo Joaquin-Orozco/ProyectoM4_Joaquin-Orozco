@@ -2,7 +2,7 @@ import { collection, addDoc, query, where, getDocs, doc, updateDoc, deleteDoc } 
 import { db } from './firebase'
 import type { Task } from '../types'
 
-const tasksRef = () => collection(db, 'tasks')
+const tasksRef = () => collection(db!, 'tasks')
 
 export async function addTaskForUser(task: Partial<Task> & { userId: string }) {
   const data = { ...task, createdAt: task.createdAt ?? new Date().toISOString() }
@@ -17,11 +17,11 @@ export async function getTasksForUser(userId: string) {
 }
 
 export async function updateTask(taskId: string, changes: Partial<Task>) {
-  const d = doc(db, 'tasks', taskId)
+  const d = doc(db!, 'tasks', taskId)
   await updateDoc(d, changes as any)
 }
 
 export async function deleteTask(taskId: string) {
-  const d = doc(db, 'tasks', taskId)
+  const d = doc(db!, 'tasks', taskId)
   await deleteDoc(d)
 }

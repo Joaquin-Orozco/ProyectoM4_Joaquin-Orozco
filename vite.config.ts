@@ -9,10 +9,6 @@ export default defineConfig({
     setupFiles: './src/test/setup.ts',
     css: true,
     pool: 'threads',
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
+    singleThread: true,
   },
 })
